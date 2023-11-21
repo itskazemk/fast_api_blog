@@ -131,6 +131,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+/fastapi
 
 # Spyder project settings
 .spyderproject
@@ -191,5 +192,6 @@ pyrightconfig.json
 # Ignore all local history of files
 .history
 .ionide
+
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
