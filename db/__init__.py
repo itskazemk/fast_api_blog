@@ -1,4 +1,4 @@
-from .engine import Base, engine
+from .engine import Base
 from .models import User
 
 __all__ = [

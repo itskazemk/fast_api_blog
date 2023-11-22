@@ -1,4 +1,6 @@
-from db import Base, engine
+# import uvicorn
+
+from db.engine import Base, engine
 from fastapi import FastAPI
 from routers.users import router as user_router
 
@@ -12,3 +14,7 @@ async def init_tables():
 
 
 app.include_router(user_router, prefix="/user")
+
+
+# if __name__ == "__main__":
+#     uvicorn.run(app)
