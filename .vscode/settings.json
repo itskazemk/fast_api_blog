@@ -4,7 +4,8 @@
   "editor.unicodeHighlight.nonBasicASCII": false,
   "python.analysis.typeCheckingMode": "basic",
   "workbench.editorAssociations": {
-    "*.dump": "default"
+    "*.dump": "default",
+    "*.db": "default"
   },
   "editor.largeFileOptimizations": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
