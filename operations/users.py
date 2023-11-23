@@ -23,6 +23,26 @@ class UsersOperation:
             user_data = await session.scalar(query)
 
             if user_data is None:
-                print('Error None')
+                print("Error None")
 
+            return user_data
+
+    async def update_username(self, old_username: str, new_username: str) -> User:
+        query = sa.select(User).where(User.username == old_username)
+
+        update_query = (
+            sa.update(User)
+            .where(User.username == old_username)
+            .values(username=new_username)
+        )
+
+        async with self.db_session as session:
+            user_data = await session.scalar(query)
+
+            if user_data is None:
+                print("Error None")
+
+            await session.execute(update_query)
+
+            user_data.username = new_username
             return user_data

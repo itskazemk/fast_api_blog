@@ -5,15 +5,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from db.engine import get_db
 from fastapi import APIRouter, Body, Depends
 from operations.users import UsersOperation
-from schemas._input import RegisterInput
+from schemas._input import RegisterInput, UpdateUserProfileInput
 
 router = APIRouter()
 
 
 @router.post("/register")
 async def register(
-        db_session: Annotated[AsyncSession, Depends(get_db)],
-        data: RegisterInput = Body(),
+    db_session: Annotated[AsyncSession, Depends(get_db)],
+    data: RegisterInput = Body(),
 ):
     user = await UsersOperation(db_session).create(
         username=data.username,
@@ -35,8 +35,15 @@ async def profile(db_session: Annotated[AsyncSession, Depends(get_db)], username
 
 
 @router.put("/update")
-async def update():
-    pass
+async def update(
+    db_session: Annotated[AsyncSession, Depends(get_db)],
+    data: UpdateUserProfileInput = Body(),
+):
+    user_profile = await UsersOperation(db_session).update_username(
+        old_username=data.old_username, new_username=data.new_username
+    )
+
+    return user_profile
 
 
 @router.post("/logout")
