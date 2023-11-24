@@ -1,8 +1,8 @@
 import sqlalchemy as sa
-from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.models import User
+from fastapi import HTTPException
 
 
 class UsersOperation:
@@ -25,7 +25,7 @@ class UsersOperation:
             user_data = await session.scalar(query)
 
             if user_data is None:
-                raise ValidationError("user is none")
+                raise HTTPException(status_code=404, detail="user doesn't exist")
 
             return user_data
 
@@ -42,7 +42,7 @@ class UsersOperation:
             user_data = await session.scalar(query)
 
             if user_data is None:
-                raise ValidationError("user is none")
+                raise HTTPException(status_code=404, detail="user doesn't exist")
 
             await session.execute(update_query)
             await session.commit()
@@ -59,7 +59,7 @@ class UsersOperation:
         async with self.db_session as session:
             user_data = await session.scalar(user_query)
             if user_data is None:
-                raise ValidationError("user is none")
+                raise HTTPException(status_code=404, detail="user doesn't exist")
 
             await session.execute(delete_query)
             await session.commit()
