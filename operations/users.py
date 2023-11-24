@@ -1,5 +1,7 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 import sqlalchemy as sa
+from pydantic import ValidationError
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from db.models import User
 
 
@@ -23,7 +25,7 @@ class UsersOperation:
             user_data = await session.scalar(query)
 
             if user_data is None:
-                print("Error None")
+                raise ValidationError("user is none")
 
             return user_data
 
@@ -40,9 +42,26 @@ class UsersOperation:
             user_data = await session.scalar(query)
 
             if user_data is None:
-                print("Error None")
+                raise ValidationError("user is none")
 
             await session.execute(update_query)
+            await session.commit()
 
             user_data.username = new_username
             return user_data
+
+    async def user_delete_account(self, username, password) -> str:
+        delete_query = sa.delete(User).where(
+            User.username == username, User.password == password
+        )
+        user_query = sa.select(User).where(User.username == username)
+
+        async with self.db_session as session:
+            user_data = await session.scalar(user_query)
+            if user_data is None:
+                raise ValidationError("user is none")
+
+            await session.execute(delete_query)
+            await session.commit()
+
+            return f"User '{username}' Deleted!"
