@@ -1,9 +1,9 @@
 from typing import Annotated
 
+from fastapi import APIRouter, Body, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.engine import get_db
-from fastapi import APIRouter, Body, Depends
 from operations.users import UsersOperation
 from schemas._input import Register_DeleteInput, UpdateUserProfileInput
 
