@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class Register_DeleteInput(BaseModel):
+class UserInput(BaseModel):
     username: str
     password: str
 
