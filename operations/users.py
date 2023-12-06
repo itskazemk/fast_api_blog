@@ -81,3 +81,16 @@ class UsersOperation:
             await session.commit()
 
             return f"User '{username}' Deleted!"
+
+    async def login(self, username: str, password: str) -> str:
+        query = sa.select(User).where(User.username == username)
+
+        async with self.db_session as session:
+            user = await session.scalar(query)
+            if user is None:
+                raise HTTPException(status_code=400, detail="username is wrong")
+
+        if not password_manager.verify(password, user.password):
+            raise HTTPException(status_code=400, detail="password is wrong")
+
+        return "yes god dammed"
