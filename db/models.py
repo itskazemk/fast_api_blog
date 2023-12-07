@@ -13,3 +13,4 @@ class User(Base):
     id: Mapped[UUID] = mapped_column(
         primary_key=True, index=True, default_factory=uuid4
     )
+    disabled: Mapped[bool] = mapped_column(default=False)
